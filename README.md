@@ -1,10 +1,10 @@
-s
+
 # rpi_tank_rev2
 Based on the project "A Robot called Bob" http://forum.piborg.org/bot-of-bits
 
 The project assumes you have a working bluetooth PS3 controller connected to your Raspberry Pi using the six axis and bluez library. I purchased a 3rd party cheapee controller and paid the price. I had to tweak the bluez library to get it to work with it. If you have a legitimate Ps3 controller, your life will be a lot easier.
 
-It also utilizez the Thunderborg motor controller hat. I used cheap Tamiya tank parts to build my tank and 3D printed my chassis. For a basic tank, you would just mount the Pi and battery on the wood plank that comes with the Tamiya chassis. The voltages for the Thunderborg are scalable, so you can port this to just about any size RC tank implementation.
+It also utilizes the Thunderborg motor controller hat. I used cheap Tamiya tank parts to build my tank and 3D printed my chassis. For a basic tank, you would just mount the Pi and battery on the wood plank that comes with the Tamiya chassis. The voltages for the Thunderborg are scalable, so you can port this to just about any size RC tank implementation.
 
 My build is described below.
 
