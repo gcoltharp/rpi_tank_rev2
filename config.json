@@ -1,0 +1,19 @@
+{
+"axis":[{
+	"LeftAxis":"3",
+	"LeftInverted":"0",
+	"RightAxis":"1",
+	"RightInverted":"0"
+	}],
+"buttons":[{
+	"slow":"8",
+	"slowFactor":"0.65",
+	"fastTurn":"9",
+	"rightShoulder":"11",
+	"leftShoulder":"10",
+	"PS":"16"
+	}],
+"interval":"0.1",
+"voltageIn":"7.2",
+"voltageOut":"5.0"
+}
