@@ -18,6 +18,7 @@ Parts:
     This tank body comes with a single drive motor, which I did not use but the parts could be useful.
   Tamiya dual drive motor https://www.amazon.com/gp/product/B001Q13BIU/ref=oh_aui_search_detailpage?ie=UTF8&psc=1
     This is the independet drive gear box. It can be geared for four different gear combinations. I went with the low speed/high torque       build.
+  3S 1000 LiPo battery
   3D printed body parts for the tub, top, cap and camera mount
     STLs in the file list
     
