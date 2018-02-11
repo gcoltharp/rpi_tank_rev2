@@ -82,26 +82,6 @@ def Joystick_Startup(TB):
 	print 'Joystick found'
 	return joystick
 	
-# Pi Blaster - May be replaced with RPi.PWM
-def BlasterHelper(value):
-	f = open('/dev/pi-blaster', 'w')
-	f.write('%s\n' % (value))
-	f.close()
-
-def DoButton(TB,joystick,ledBatteryMode):
-	configurations = getConfigurations()
-	buttonSlow = int(configurations["buttons"][0]["slow"])
-	slowFactor = float(configurations["buttons"][0]["slowFactor"])
-	buttonFastTrun = int(configurations["buttons"][0]["fastTurn"])
-	rightShoulder = int(configurations["buttons"][0]["rightShoulder"])
-	leftShoulder = int(configurations["buttons"][0]["leftShoulder"])
-	psButton = int(configurations["buttons"][0]["PS"])
-
-	#Three key salute shutdown
-	if joystick.get_button(psButton) and joystick.get_button(leftShoulder) and joystick.get_button(rightShoulder):
-		DoShutdown(TB,joystick,ledBatteryMode)
-	#Fast Mode
-
 def DoShutdown(TB,joystick,ledBatteryMode):
 	# Check for shutdown button combinations
 	p = subprocess.Popen(['ps', '-A'], stdout=subprocess.PIPE)
@@ -128,11 +108,12 @@ def main():
 	rightInverted = int(configurations["axis"][0]["RightInverted"])
 	buttonSlow = int(configurations["buttons"][0]["slow"])
 	slowFactor = float(configurations["buttons"][0]["slowFactor"])
-	buttonFastTurn = int(configurations["buttons"][0]["fastTurn"])
+	buttonFast = int(configurations["buttons"][0]["fast"])
 	rightShoulder = int(configurations["buttons"][0]["rightShoulder"])
 	leftShoulder = int(configurations["buttons"][0]["leftShoulder"])
 	psButton = int(configurations["buttons"][0]["PS"])
 	interval = float(configurations["interval"])
+	normalFactor = float(configurations["normalFactor"])
 	
 	# Power settings
 	voltageIn = float(configurations["voltageIn"])
@@ -174,7 +155,9 @@ def main():
 					DoShutdown(TB,joystick,ledBatteryMode)	
 				elif event.type == pygame.JOYBUTTONDOWN:
 					# A button on the joystick just got pushed down
-					DoButton(TB,joystick,ledBatteryMode)
+					#Three key salute shutdown
+					if joystick.get_button(psButton) and joystick.get_button(leftShoulder) and joystick.get_button(rightShoulder):
+						DoShutdown(TB,joystick,ledBatteryMode)
 				elif event.type == pygame.JOYAXISMOTION:
 					# Read axis positions (-1 to +1)
 					if leftInverted:
@@ -186,18 +169,21 @@ def main():
 					else:
 						rightinput = joystick.get_axis(rightStick)
 					# Apply steering speeds
-					if not joystick.get_button(buttonFastTurn):
-						leftinput *= 0.5
-						rightinput *= 0.5
+					if joystick.get_button(buttonFast):
+						#Do nothing, motors will run 100%
+						dummy = 0
+					elif joystick.get_button(buttonSlow):
+						leftinput *= slowFactor
+						rightinput *= slowFactor
+					else:
+						leftinput *= normalFactor
+						rightinput *= normalFactor
+
 					# Determine the drive power levels
 					driveLeft = -leftinput
 					driveRight = -rightinput
 					
-					# Check for button presses
-					if not joystick.get_button(buttonSlow):
-						driveLeft *= slowFactor
-						driveRight *= slowFactor
-					# Set the motors to the new speeds
+			# Set the motors to the new speeds
 			TB.SetMotor1(driveRight * maxPower)
 			TB.SetMotor2(driveLeft * maxPower)
 		# Change LEDs to purple to show motor faults
